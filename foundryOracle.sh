@@ -1,5 +1,5 @@
 #!/bin/bash    
-# chmod a+x /where/i/saved/it/foundryInstall.sh
+# chmod a+x /home/ubuntu/foundryOracle.sh
 # Foundry Installation on Oracle
 # update the system and remove older packages
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean
