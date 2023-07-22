@@ -50,6 +50,6 @@ sed -i 's/"hostname": null/"hostname": "$vtturl"/g' /home/ubuntu/foundryuserdata
 # Reinicia o sistema para concluir a instalação
 sleep 2
 clear
-echo "Reinicia o sistema para concluir a instalação"
+echo "Reiniciando o sistema para concluir a instalação"
 sleep 3
 sudo shutdown -r now
