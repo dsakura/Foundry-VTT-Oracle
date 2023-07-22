@@ -36,7 +36,7 @@ rm ~/foundry/foundryvtt.zip
 pm2 start "node /home/ubuntu/foundry/resources/app/main.js --dataPath=/home/ubuntu/foundryuserdata" --name foundry
 pm2 save
 # Configurando o proxy reverso do Caddy
-curl -o Caddyfile https://raw.githubusercontent.com/aco-rt/Foundry-VTT-Oracle/main/Caddyfile
+curl -o Caddyfile https://raw.githubusercontent.com/dsakura/Foundry-VTT-Oracle/main/Caddyfile
 sudo rm /etc/caddy/Caddyfile
 sudo mv Caddyfile /etc/caddy/Caddyfile
 echo "Insira o url do domínio do servidor"
@@ -47,6 +47,25 @@ sudo service caddy restart
 sed -i 's/"proxyPort": null/"proxyPort": 443/g' /home/ubuntu/foundryuserdata/Config/options.json
 sed -i 's/"proxySSL": false/"proxySSL": true/g' /home/ubuntu/foundryuserdata/Config/options.json
 sed -i 's/"hostname": null/"hostname": "$vtturl"/g' /home/ubuntu/foundryuserdata/Config/options.json
+# Configura S3 caso seja aws
+echo "Configurar S3? (sim ou não)"
+read resp
+if [ $resp="sim" ]
+then
+  curl -o s3.json https://raw.githubusercontent.com/dsakura/Foundry-VTT-Oracle/main/s3.json
+  sudo mv s3.json /home/ubuntu/foundryuserdata/Config/s3.json
+  echo "Insira o bucket"
+  read bkt
+  sed -i 's/"buckets": ["seubucket"]/"buckets": ["$bkt"]/g' /home/ubuntu/foundryuserdata/Config/s3.json
+  echo "Insira o ID"
+  read idb
+  sed -i 's/"accessKeyId": "suaid"/"accessKeyId": "$idb"/g' /home/ubuntu/foundryuserdata/Config/s3.json
+  echo "Insira a Chave"
+  read keyb
+  sed -i 's/"secretAccessKey": "suachave"/"secretAccessKey": "$keyb"/g' /home/ubuntu/foundryuserdata/Config/s3.json
+  # adiciona o s3 no options
+  sed -i 's/"awsConfig": null/"awsConfig": "/home/ubuntu/foundryuserdata/Config/s3.json"/g' /home/ubuntu/foundryuserdata/Config/options.json
+else
 # Reinicia o sistema para concluir a instalação
 sleep 2
 clear
