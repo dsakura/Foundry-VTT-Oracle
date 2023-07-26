@@ -66,9 +66,11 @@ then
   # adiciona o s3 no options
   sed -i 's/"awsConfig": null/"awsConfig": "/home/ubuntu/foundryuserdata/Config/s3.json"/g' /home/ubuntu/foundryuserdata/Config/options.json
 else
-# Reinicia o sistema para concluir a instalação
-sleep 2
-clear
-echo "Reiniciando o sistema para concluir a instalação"
-sleep 3
-sudo shutdown -r now
+  # Reinicia o sistema para concluir a instalação
+  sleep 2
+  clear
+  echo "Reiniciando o sistema para concluir a instalação"
+  sleep 3
+  sudo shutdown -r now
+fi
+done
