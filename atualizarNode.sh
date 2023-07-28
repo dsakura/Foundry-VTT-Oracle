@@ -17,3 +17,5 @@ then
 else
 	sleep 2
 	clear
+sleep 2
+clear
