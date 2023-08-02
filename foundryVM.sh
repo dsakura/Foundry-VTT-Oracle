@@ -9,10 +9,9 @@ sudo iptables -I INPUT 6 -m state --state NEW -p tcp --match multiport --dports 
 sudo netfilter-persistent save
 # instala nodejs, pm2, nano, unzip
 sudo apt install curl nano unzip -y
-curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs
 sudo npm install pm2 -g
-sudo npm update -g pm2
 sudo pm2 update
 #permite que o pm2 inicie e pare após a reinicialização
 pm2 startup
@@ -46,6 +45,8 @@ sudo service caddy restart
 # Edita o arquivo foundry options.json para permitir conexões por meio de proxy e 443
 sed -i 's/"proxyPort": null/"proxyPort": 443/g' /home/ubuntu/foundryuserdata/Config/options.json
 sed -i 's/"proxySSL": false/"proxySSL": true/g' /home/ubuntu/foundryuserdata/Config/options.json
+echo "Insira o url do domínio do servidor"
+read vtturl
 sed -i 's/"hostname": null/"hostname": "$vtturl"/g' /home/ubuntu/foundryuserdata/Config/options.json
 # Configura S3 caso seja aws
 echo "Configurar S3? (sim ou não)"
@@ -65,6 +66,12 @@ then
   sed -i 's/"secretAccessKey": "suachave"/"secretAccessKey": "$keyb"/g' /home/ubuntu/foundryuserdata/Config/s3.json
   # adiciona o s3 no options
   sed -i 's/"awsConfig": null/"awsConfig": "/home/ubuntu/foundryuserdata/Config/s3.json"/g' /home/ubuntu/foundryuserdata/Config/options.json
+   # Reinicia o sistema para concluir a instalação
+  sleep 2
+  clear
+  echo "Reiniciando o sistema para concluir a instalação"
+  sleep 3
+  sudo shutdown -r now
 else
   # Reinicia o sistema para concluir a instalação
   sleep 2
