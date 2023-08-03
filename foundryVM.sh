@@ -64,7 +64,7 @@ then
   read keyb
   sed -i 's/"secretAccessKey": "suachave"/"secretAccessKey": "$keyb"/g' /home/ubuntu/foundryuserdata/Config/s3.json
   # adiciona o s3 no options
-  sed -i 's/"awsConfig": null/"awsConfig": "/home/ubuntu/foundryuserdata/Config/s3.json"/g' /home/ubuntu/foundryuserdata/Config/options.json
+  sed -i 's/"awsConfig": null/"awsConfig": "s3.json"/g' /home/ubuntu/foundryuserdata/Config/options.json
    # Reinicia o sistema para concluir a instalação
   sleep 2
   clear
