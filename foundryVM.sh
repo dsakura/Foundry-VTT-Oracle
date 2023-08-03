@@ -25,6 +25,7 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --d
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 sudo apt update
 sudo apt install caddy
+sudo ufw allow proto tcp from any to any port 80,443,30000
 # Insere o Timed URL do Foundry para download
 echo "insira o Timed URL de download do foundry vtt na versão NodeJS"
 read tdurl
@@ -45,8 +46,6 @@ sudo service caddy restart
 # Edita o arquivo foundry options.json para permitir conexões por meio de proxy e 443
 sed -i 's/"proxyPort": null/"proxyPort": 443/g' /home/ubuntu/foundryuserdata/Config/options.json
 sed -i 's/"proxySSL": false/"proxySSL": true/g' /home/ubuntu/foundryuserdata/Config/options.json
-echo "Insira o url do domínio do servidor"
-read vtturl
 sed -i 's/"hostname": null/"hostname": "$vtturl"/g' /home/ubuntu/foundryuserdata/Config/options.json
 # Configura S3 caso seja aws
 echo "Configurar S3? (sim ou não)"
