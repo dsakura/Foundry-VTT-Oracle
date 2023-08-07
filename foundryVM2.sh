@@ -44,8 +44,11 @@ while true; do
 			rm ~/foundry/foundryvtt.zip
 			#cria pasta Data
 			mkdir -p ~/foundryuserdata
-			#Configura pm2 para foundry iniciar com o sistema
+   			#Testa se foundry está rodando
+      			#Configura pm2 para foundry iniciar com o sistema
 			pm2 start "node /home/<user>/foundry/resources/app/main.js --dataPath=/home/<user>/foundryuserdata" --name foundry
+   			pm2 list
+      			read -p "Pressione ENTER para continuar..."
 			pm2 save
 			#Configura Caddy Reverse Proxy
 			curl -o Caddyfile https://raw.githubusercontent.com/dsakura/Foundry-VTT-Oracle/main/Caddyfile
