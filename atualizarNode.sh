@@ -2,9 +2,10 @@
 # chmod a+x /home/ubuntu/atualizarNode.sh
 pm2 stop all
 pm2 unstartup
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt update
 sudo apt upgrade
+sudo apt-get install nodejs
+sudo apt install npm
 npm rebuild -g pm2
 pm2 startup
 pm2 start all
