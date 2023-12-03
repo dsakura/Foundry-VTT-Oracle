@@ -1,5 +1,7 @@
 #!/bin/bash    
 # chmod a+x /foundryAWS.sh
+# auto remocao
+trap 'rm -- "$0"' EXIT
 # Instalação do Foundry na Oracle
 # Atualiza o sistema e remove pacotes antigos
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean
