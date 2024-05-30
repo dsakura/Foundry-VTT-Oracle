@@ -1,6 +1,10 @@
 #!/bin/bash    
 # chmod a+x /where/i/saved/it/foundryInstall.sh
 # Instalação do Foundry na Oracle
+# Remove o script após a execução
+trap "/bin/rm -f $0" EXIT
+
+echo "Executando a configuração do Servidor Oracle para o Foundry VTT"
 # Atualiza o sistema e remove pacotes antigos
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean
 # Atualiza o iptables para abrir as portas 80, 443, 30000
@@ -25,11 +29,29 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 mkdir ~/foundry
 mkdir ~/foundryuserdata
 # Instala caddy para configurar reverse proxy e https
-sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt install gnupg curl apt-transport-https cdebian-keyring debian-archive-keyring -y
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+wget -qO - https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt | sudo tee /etc/apt/sources.list.d/caddy.list
 sudo apt update
-sudo apt install caddy
+sudo apt install caddy -y
+sudo systemctl status caddy
+# Solicitação para continuar ou interromper
+read -p "Deseja continuar (S/n)? " choice
+
+if [ "$choice" = "n" ] || [ "$choice" = "N" ]; then
+    echo "Script interrompido."
+    exit 1
+fi
+
+# Continuar com o restante do script
+echo "Continuando com o script..."
+#----------------------------------- INICIO CODIGO ANTIGO ---------------------------------------
+#sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+#curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+#curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+#sudo apt update
+#sudo apt install caddy
+#---------------------------------- FIM CODIGO ANTIGO -------------------------------------------
 # Adiciona url de instalacao
 echo "Insira Foundry VTT Timed Download URL na versão NodeJS"
 read tdurl
@@ -56,5 +78,5 @@ sleep 2
 clear
 echo "Reiniciando o sistema para completar a instalação"
 sleep 3
-(sh -c "sleep 1; rm -- '\$0'" &)
+#(sh -c "sleep 1; rm -- '\$0'" &)
 sudo shutdown -r now
