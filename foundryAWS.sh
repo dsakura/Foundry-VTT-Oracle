@@ -15,13 +15,26 @@ sudo apt install -y ca-certificates curl gnupg
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-#repositorio Caddy
-sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+sudo apt update
+sudo apt install nodejs unzip nano -y
+# Instala caddy para configurar reverse proxy e https
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-# Instalacao
 sudo apt update
-sudo apt install nodejs caddy unzip nano -y
+sudo apt install caddy
+sudo systemctl status caddy
+# Solicitação para continuar ou interromper
+read -p "Deseja continuar (S/n)? " choice
+
+if [ "$choice" = "n" ] || [ "$choice" = "N" ]; then
+    echo "Script interrompido."
+    exit 1
+fi
+
+# Continuar com o restante do script
+echo "Continuando com o script..."
+# Instalacao
 #pm2
 sudo npm install pm2 -g
 sudo npm update -g pm2
