@@ -1,5 +1,5 @@
 #!/bin/bash 
-# chmod a+x atualizarFoundry.sh
+# chmod a+x atualizarFoundryv2.sh
 
 # Exibir instruções de uso se nenhum argumento for fornecido
 if [ "$#" -eq 0 ]; then
