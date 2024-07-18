@@ -43,6 +43,7 @@ case $1 in
         echo "Directory has been renamed to: $dir"
         sleep 5
         # Baixando e instalando o foundry
+        rm -rf ~/foundry
         mkdir ~/foundry
         # Adiciona Foundry timed url para download
         echo "Insira foundry vtt v11 timed download url na versão Linux NodeJS"
