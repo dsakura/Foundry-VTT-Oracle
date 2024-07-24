@@ -3,13 +3,13 @@
 
 # Exibir instruções de uso se nenhum argumento for fornecido
 if [ "$#" -eq 0 ]; then
-    echo "Usage: $0 {option1|option2|option3}"
+    echo "Usage: $0 {fvtt|fvttnode|data}"
     exit 1
 fi
 
 # Processa cada opção
 case $1 in
-    option1)
+    fvtt)
         echo "Atualizar Apenas Foundry"
         # atualiza o sistema e remove pacotes antigos
         sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean
@@ -57,7 +57,7 @@ case $1 in
         sleep 5
         sudo shutdown -r now
         ;;
-    option2)
+    fvttnode)
         echo "Atualizar Foundry mais Node"
         echo "Atualizar Apenas Foundry"
         # atualiza o sistema e remove pacotes antigos
@@ -118,7 +118,7 @@ case $1 in
         sleep 5
         sudo shutdown -r now
         ;;
-    option3)
+    data)
         echo "Apagar Data"
         pm2 stop foundry
         # Defina os caminhos para as pastas
